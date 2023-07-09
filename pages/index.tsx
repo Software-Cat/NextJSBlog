@@ -1,9 +1,10 @@
-import React from "react";
-import { GetStaticProps } from "next";
-import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
+import React from 'react'
+import { GetStaticProps } from 'next'
+import Layout from '../components/Layout'
+import Post, { PostProps } from '../components/Post'
 
-import prisma from "../lib/prisma";
+import prisma from '../lib/prisma'
+import CountryText from '../components/CountryText'
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.post.findMany({
@@ -13,16 +14,17 @@ export const getStaticProps: GetStaticProps = async () => {
         select: { name: true },
       },
     },
-  });
+  })
   return {
     props: { feed },
     revalidate: 10,
-  };
-};
+  }
+}
 
 type Props = {
-  feed: PostProps[];
-};
+  feed: PostProps[]
+  country: String
+}
 
 const Blog: React.FC<Props> = (props) => {
   return (
@@ -37,6 +39,9 @@ const Blog: React.FC<Props> = (props) => {
           ))}
         </main>
       </div>
+
+      <CountryText country={props.country}></CountryText>
+
       <style jsx>{`
         .post {
           background: white;
@@ -52,7 +57,7 @@ const Blog: React.FC<Props> = (props) => {
         }
       `}</style>
     </Layout>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
