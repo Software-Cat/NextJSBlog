@@ -9,13 +9,13 @@ export const getServerSideProps = ({ query }) => ({
 
 export default function CountryText({ country }) {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>Next.js Geolocation in Edge Functions</h1>
-        <p className={styles.description}>
+    <div>
+      <main>
+        <h1>Next.js Geolocation in Edge Functions</h1>
+        <p>
           {country && country !== 'undefined' ? (
             <>
-              <span className={styles.flag}>
+              <span>
                 <Image
                   alt={`${country} flag`}
                   src={`https://flagcdn.com/96x72/${country.toLowerCase()}.png`}
@@ -23,7 +23,7 @@ export default function CountryText({ country }) {
                   height={24}
                 />
               </span>
-              <span className={styles.welcome}>
+              <span>
                 Welcome from {countries.find((c) => c.code === country).name}
               </span>
             </>
