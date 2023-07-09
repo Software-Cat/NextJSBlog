@@ -1,12 +1,10 @@
-import { MiddlewareRequest } from '@netlify/next'
+import { NextResponse } from 'next/server'
 
 export async function middleware(req) {
-  const request = new MiddlewareRequest(req)
-  const response = await request.next()
+  const { nextUrl: url, geo } = req
+
+  url.searchParams.set('country', geo.country || 'US')
 
   // Transform the response page data
-  response.transformData((data) => {
-    data.pageProps.country = request.geo?.city
-    return data
-  })
+  return NextResponse.rewrite(url)
 }

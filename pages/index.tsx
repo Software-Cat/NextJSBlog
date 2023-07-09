@@ -6,7 +6,12 @@ import Post, { PostProps } from '../components/Post'
 import prisma from '../lib/prisma'
 import CountryText from '../components/CountryText'
 
-export const getStaticProps: GetStaticProps = async () => {
+type Props = {
+  feed: PostProps[]
+  query
+}
+
+export const getServerSideProps = async ({ query }) => {
   const feed = await prisma.post.findMany({
     where: { published: true },
     include: {
@@ -16,14 +21,8 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   })
   return {
-    props: { feed },
-    revalidate: 10,
+    props: { feed, query },
   }
-}
-
-type Props = {
-  feed: PostProps[]
-  country: String
 }
 
 const Blog: React.FC<Props> = (props) => {
@@ -40,7 +39,7 @@ const Blog: React.FC<Props> = (props) => {
         </main>
       </div>
 
-      <CountryText country={props.country}></CountryText>
+      <CountryText country={props.query.country}></CountryText>
 
       <style jsx>{`
         .post {
